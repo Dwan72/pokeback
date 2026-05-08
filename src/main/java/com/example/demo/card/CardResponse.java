@@ -5,5 +5,6 @@ public record CardResponse(
     String setName,
     String cardName,
     String cardNumber,
-    String cardmarketId) {
+    String cardMarketSearch,
+    String cardMarketAbbr) {
 }

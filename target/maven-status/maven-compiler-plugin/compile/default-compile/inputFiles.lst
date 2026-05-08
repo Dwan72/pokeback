@@ -1,5 +1,6 @@
 /Users/gurren/Projects/pokeprice/pokeback/src/main/java/com/example/demo/DemoApplication.java
 /Users/gurren/Projects/pokeprice/pokeback/src/main/java/com/example/demo/card/CardController.java
+/Users/gurren/Projects/pokeprice/pokeback/src/main/java/com/example/demo/card/CardMarketSearchFormatter.java
 /Users/gurren/Projects/pokeprice/pokeback/src/main/java/com/example/demo/card/CardRequest.java
 /Users/gurren/Projects/pokeprice/pokeback/src/main/java/com/example/demo/card/CardResponse.java
 /Users/gurren/Projects/pokeprice/pokeback/src/main/java/com/example/demo/card/PokemonCardNormalizer.java

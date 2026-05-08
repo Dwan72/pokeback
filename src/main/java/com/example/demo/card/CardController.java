@@ -24,28 +24,33 @@ class CardController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   CardResponse create(@RequestBody CardRequest request) {
+    String cardMarketSearch = CardMarketSearchFormatter.format(request.cardName(), request.cardNumber());
+    String cardMarketAbbr = PokemonCardNormalizer.cardmarketId(request.setName(), request.cardNumber());
+
     Long id = jdbc.queryForObject(
         """
-            INSERT INTO cards (set_name, card_name, card_number)
-            VALUES (?, ?, ?)
-            ON CONFLICT (card_name, card_number) DO NOTHING
+            INSERT INTO cards (set_name, card_name, card_number, card_market_search, card_market_abbr)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT (card_name, card_number) DO UPDATE
+                SET set_name = EXCLUDED.set_name,
+                    card_market_search = EXCLUDED.card_market_search,
+                    card_market_abbr = EXCLUDED.card_market_abbr
             RETURNING id
             """,
         Long.class,
         request.setName(),
         request.cardName(),
-        request.cardNumber());
-
-    String cardmarketId = PokemonCardNormalizer.cardmarketId(
-        request.setName(),
-        request.cardNumber());
+        request.cardNumber(),
+        cardMarketSearch,
+        cardMarketAbbr);
 
     return new CardResponse(
         id,
         request.setName(),
         request.cardName(),
         request.cardNumber(),
-        cardmarketId);
+        cardMarketSearch,
+        cardMarketAbbr);
   }
 
   @PostMapping("/batch")
