@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,5 +62,22 @@ class CardController {
         .map(this::create)
         .filter(response -> response.id() != null)
         .toList();
+  }
+
+  @GetMapping("/allcards")
+  List<CardResponse> allCards() {
+    return jdbc.query(
+        """
+            SELECT id, set_name, card_name, card_number, card_market_search, card_market_abbr
+            FROM cards
+            ORDER BY id
+            """,
+        (rs, rowNum) -> new CardResponse(
+            rs.getLong("id"),
+            rs.getString("set_name"),
+            rs.getString("card_name"),
+            rs.getString("card_number"),
+            rs.getString("card_market_search"),
+            rs.getString("card_market_abbr")));
   }
 }
